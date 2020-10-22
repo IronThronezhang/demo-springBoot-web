@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.mapper.EmpMapper">
+  <resultMap id="BaseResultMap" type="com.example.entity.Emp">
+    <result column="Name" jdbcType="VARCHAR" property="name" />
+    <result column="Dept_ID" jdbcType="INTEGER" property="deptId" />
+    <result column="Salary" jdbcType="DECIMAL" property="salary" />
+  </resultMap>
+  <insert id="insert" parameterType="com.example.entity.Emp">
+    insert into emp (Name, Dept_ID, Salary
+      )
+    values (#{name,jdbcType=VARCHAR}, #{deptId,jdbcType=INTEGER}, #{salary,jdbcType=DECIMAL}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.example.entity.Emp">
+    insert into emp
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="name != null">
+        Name,
+      </if>
+      <if test="deptId != null">
+        Dept_ID,
+      </if>
+      <if test="salary != null">
+        Salary,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="deptId != null">
+        #{deptId,jdbcType=INTEGER},
+      </if>
+      <if test="salary != null">
+        #{salary,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <select id="getAll"  resultType="com.example.entity.Emp">
+      select  
+          t.Name as name,
+          t.Dept_ID as deptId,
+          t.Salary as salary
+         from emp t
+  </select>
+  <select id="getEmpById" resultType="com.example.entity.Emp">
+       select 
+          t.Name as name,
+          t.Dept_ID as deptId,
+          t.Salary as salary
+         from emp t
+         where t.Dept_ID = #{deptId}
+  </select>
+  <delete id="deleteEmp" >
+          delete from emp 
+          where Dept_ID = #{deptId} 
+  </delete>
+</mapper>
